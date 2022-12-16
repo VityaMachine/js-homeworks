@@ -1,7 +1,7 @@
 var userName = prompt("Введіть ім'я");
 var userSurname = prompt("Введіть прізвище");
 var userAge = prompt("Введіть свій вік");
-
+/* KKK */
 var numbers = [];
 
 while (numbers.length < 3) {
