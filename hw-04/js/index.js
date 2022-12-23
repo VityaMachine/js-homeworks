@@ -1,6 +1,5 @@
 // task 1
 
-
 console.log("Результат завдання 1:");
 
 function map(cbFunction, array) {
@@ -63,14 +62,10 @@ function checkAge(age) {
 
 console.log("Результат завдання 2:");
 
-const checkAge = (age) => age > 18 ? true : confirm("Родители разрешили?")
+const checkAge = (age) => (age > 18 ? true : confirm("Родители разрешили?"));
 
 const age1 = 15;
 const age2 = 25;
 
 console.log(checkAge(age1));
 console.log(checkAge(age2));
-
-
-
-
