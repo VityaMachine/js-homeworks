@@ -11,3 +11,5 @@ HW-02 - https://vityamachine.github.io/js-homeworks/hw-02/
 HW-03 - https://vityamachine.github.io/js-homeworks/hw-03/
 
 HW-04 - https://vityamachine.github.io/js-homeworks/hw-04/
+
+HW-05 - https://vityamachine.github.io/js-homeworks/hw-05/
