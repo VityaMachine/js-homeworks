@@ -20,15 +20,15 @@ paintBtn.hidden = true;
 const circlesRoot = document.createElement("div");
 circlesRoot.classList.add("circles-root");
 
+// create global variables
+let radius;
+let circlesArr = [];
+
 // add Listeners
 mainBtn.addEventListener("click", makeBaseMarkup);
 inputField.addEventListener("input", getRadius);
-paintBtn.addEventListener("click", makeCirclesMarckup);
-
-// create global variables
-let radius;
-
-let circlesArr = [];
+paintBtn.addEventListener("click", () => renderCircles(circlesArr));
+circlesRoot.addEventListener("click", deleteClickedCircle);
 
 // page functions
 function makeBaseMarkup() {
@@ -45,8 +45,10 @@ function getRandomColor() {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-function createCircle(radius, color) {
+function createCircle(radius, color, id) {
   const circle = document.createElement("div");
+
+  circle.dataset.id = id;
 
   circle.style.display = "inline-block";
 
@@ -57,6 +59,21 @@ function createCircle(radius, color) {
   circle.style.borderRadius = "50%";
 
   return circle;
+}
+
+function fillCirclesMarkup() {
+  if (radius <= 0) {
+    return;
+  }
+
+  circlesArr = [];
+
+  for (let i = 1; i <= 100; i++) {
+    const color = getRandomColor();
+    const circle = createCircle(radius, color, i);
+
+    circlesArr.push(circle);
+  }
 }
 
 function getRadius(e) {
@@ -72,20 +89,25 @@ function getRadius(e) {
 
   paintBtn.disabled = false;
   paintBtn.textContent = `Paint circles with radius ${radius}px`;
+
+  fillCirclesMarkup();
 }
 
-function makeCirclesMarckup() {
-  if (radius <= 0) {
+function renderCircles(markupArray) {
+  circlesRoot.innerHTML = "";
+  circlesRoot.append(...markupArray);
+}
+
+function deleteClickedCircle(e) {
+  if (!e.target.dataset.id) {
     return;
   }
-  circlesArr = [];
 
-  for (let i = 1; i <= 100; i++) {
-    const color = getRandomColor();
-    const circle = createCircle(radius, color);
+  const id = e.target.dataset.id;
 
-    circlesArr.push(circle);
-  }
+  const newArray = circlesArr.filter((el) => el.dataset.id !== id);
+
+  circlesArr = newArray;
+
+  renderCircles(circlesArr);
 }
-
-
