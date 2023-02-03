@@ -18,7 +18,8 @@ function changeContent(e) {
 
   inputField.setAttribute("placeholder", currentText);
   inputField.classList.add("input");
-  inputField.addEventListener("keydown", setText);
+  inputField.addEventListener("keydown", setTextEnter);
+  inputField.addEventListener('focusout', setTextFocus);
 
   element.textContent = "";
 
@@ -26,10 +27,21 @@ function changeContent(e) {
   inputField.focus();
 }
 
-function setText(e) {
+function setTextEnter(e) {
   if (e.key !== "Enter") {
     return;
   }
+
+  const placeholder = e.target.placeholder;
+
+  const newText = e.target.value;
+
+  const parent = e.target.parentNode;
+
+  parent.textContent = newText.length === 0 ? placeholder : newText;
+}
+
+function setTextFocus(e) {
 
   const placeholder = e.target.placeholder;
 
