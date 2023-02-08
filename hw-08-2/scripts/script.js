@@ -18,8 +18,9 @@ function changeContent(e) {
 
   inputField.setAttribute("placeholder", currentText);
   inputField.classList.add("input");
+
   inputField.addEventListener("keydown", setTextEnter);
-  inputField.addEventListener('focusout', setTextFocus);
+  inputField.addEventListener("focusout", setTextEnter);
 
   element.textContent = "";
 
@@ -28,20 +29,9 @@ function changeContent(e) {
 }
 
 function setTextEnter(e) {
-  if (e.key !== "Enter") {
-    return;
+  if (e.type === "keydown") {
+    if (e.key !== "Enter") return;
   }
-
-  const placeholder = e.target.placeholder;
-
-  const newText = e.target.value;
-
-  const parent = e.target.parentNode;
-
-  parent.textContent = newText.length === 0 ? placeholder : newText;
-}
-
-function setTextFocus(e) {
 
   const placeholder = e.target.placeholder;
 
@@ -63,7 +53,6 @@ window.onload = () => {
   // main
   const main = document.createElement("main");
   main.classList.add("main", "full-width");
-
 
   // section Left
   const sectionLeft = createDomElement("section", "black", "left-section");
@@ -103,21 +92,18 @@ window.onload = () => {
 
   main.append(sectionLeft);
 
-
   // section Right
   const sectionRight = createDomElement("section", "black", "right-section");
   const sectRightHeader = createDomElement("header", "blue");
 
-  const sectRightNav = createDomElement('nav', 'blue', 'right-nav')
+  const sectRightNav = createDomElement("nav", "blue", "right-nav");
 
   sectionRight.append(sectRightHeader, sectRightNav);
 
   main.append(sectionRight);
 
-
   // footer
-  const mainFooter = createDomElement('footer', 'black')
-
+  const mainFooter = createDomElement("footer", "black");
 
   body.append(mainHeader, main, mainFooter);
 };
