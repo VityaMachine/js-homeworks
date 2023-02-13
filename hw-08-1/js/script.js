@@ -83,7 +83,13 @@ function getRadius(e) {
 
   if (isNaN(radius)) {
     paintBtn.disabled = true;
-    paintBtn.textContent = "Wrond radius (Must be more then 0)";
+    paintBtn.textContent = "Wrond radius (Must be number)";
+    return;
+  }
+
+  if (radius < 0) {
+    paintBtn.disabled = true;
+    paintBtn.textContent = "Wrond radius (Must be over 0)";
     return;
   }
 
@@ -95,7 +101,24 @@ function getRadius(e) {
 
 function renderCircles(markupArray) {
   circlesRoot.innerHTML = "";
-  circlesRoot.append(...markupArray);
+
+  let renderArr = [];
+  let counter = 0;
+
+  for (let i = 0; i < markupArray.length; i++) {
+    if (counter < 10) {
+      renderArr.push(markupArray[i]);
+      counter++;
+    }
+
+    if (counter === 10) {
+      let lineBreak = document.createElement("br");
+      renderArr.push(lineBreak);
+      counter = 0;
+    }
+  }
+
+  circlesRoot.append(...renderArr);
 }
 
 function deleteClickedCircle(e) {
