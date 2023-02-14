@@ -70,7 +70,7 @@ function fillCirclesMarkup() {
 
   for (let i = 1; i <= 100; i++) {
     const color = getRandomColor();
-    const circle = createCircle(radius, color, i);
+    const circle = createCircle(radius, color, i)``;
 
     circlesArr.push(circle);
   }
