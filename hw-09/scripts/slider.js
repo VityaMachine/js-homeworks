@@ -16,4 +16,4 @@ function changePhoto() {
   imgRef.src = images[position];
 }
 
-setInterval(changePhoto, 1000);
+setInterval(changePhoto, 3000);
