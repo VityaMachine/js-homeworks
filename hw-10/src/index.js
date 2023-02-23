@@ -16,6 +16,17 @@ let valueA,
   memory = 0,
   showMemory = false;
 
+if (localStorage.getItem('memory')) {
+  memory = localStorage.getItem('memory');
+
+  displayRef.children[0].classList.remove("displayInput-withoutM");
+  displayRef.children[1].classList.remove("displayInput-M-disabled");
+
+  displayRef.children[0].classList.add("displayInput-withM");
+  displayRef.children[1].classList.add("displayInput-M");
+}
+
+
 function keyboardHandler(e) {
   if (e.target.type !== "button") {
     return;
@@ -101,7 +112,7 @@ function keyboardHandler(e) {
 
   // value A logic
   if (!mathActionNew && valueA) {
-    if (Number.isInteger(parseInt(inputedValue)) || inputedValue === ".") {
+    if (!Number.isNaN(parseInt(inputedValue)) || inputedValue === ".") {
       if (valueA === "0" && inputedValue === "0") {
         return;
       }
@@ -119,7 +130,7 @@ function keyboardHandler(e) {
   }
 
   if (!mathActionNew && !valueA) {
-    if (Number.isInteger(parseInt(inputedValue)) || inputedValue === ".") {
+    if (!Number.isNaN(parseInt(inputedValue)) || inputedValue === ".") {
       inputedValue === "." ? (valueA = "0.") : (valueA = inputedValue);
     }
 
@@ -130,7 +141,7 @@ function keyboardHandler(e) {
 
   // value B logic
   if (mathActionNew && valueB) {
-    if (Number.isInteger(parseInt(inputedValue)) || inputedValue === ".") {
+    if (!Number.isNaN(parseInt(inputedValue)) || inputedValue === ".") {
       if (valueB === "0" && inputedValue === "0") {
         return;
       }
@@ -146,7 +157,7 @@ function keyboardHandler(e) {
   }
 
   if (mathActionNew && !valueB) {
-    if (Number.isInteger(parseInt(inputedValue)) || inputedValue === ".") {
+    if (!Number.isNaN(parseInt(inputedValue)) || inputedValue === ".") {
       inputedValue === "." ? (valueB = "0.") : (valueB = inputedValue);
     }
 
@@ -175,6 +186,11 @@ function calculateAction(action, value1, value2) {
     oldValueB = value2;
   }
 
+    if (action === "/" && num2 === 0) {
+    return "E";
+  }
+
+
   let result;
 
   switch (action) {
@@ -191,11 +207,8 @@ function calculateAction(action, value1, value2) {
       break;
 
     case "/":
-      if (num2 !== 0) {
-        result = num1 / num2;
-      }
+      result = num1 / num2;
 
-      result = "E";
       break;
   }
 
@@ -242,6 +255,8 @@ function clearMemory() {
   memory = null;
 
   displayNumRef.value = 0;
+
+  localStorage.removeItem('memory')
 }
 
 function writeMemory() {
@@ -252,4 +267,21 @@ function writeMemory() {
   displayRef.children[1].classList.add("displayInput-M");
 
   resultValue ? (memory = resultValue) : (memory = valueA);
+
+  localStorage.setItem('memory', memory)
+
 }
+
+// function showValues() {
+//   console.log("value A: ", valueA);
+//   console.log("value B: ", valueB);
+//   console.log("value old B: ", oldValueB);
+//   console.log("mathActionOld: ", mathActionOld);
+//   console.log("mathActionNew: ", mathActionNew);
+//   console.log("resultValue: ", resultValue);
+//   console.log("equalAction: ", equalAction);
+//   console.log("memory: ", memory);
+//   console.log("showMemory: ", showMemory);
+// }
+
+// showValues();
