@@ -16,6 +16,7 @@ let valueA,
   memory = 0,
   showMemory = false;
 
+  
 if (localStorage.getItem('memory')) {
   memory = localStorage.getItem('memory');
 
