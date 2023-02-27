@@ -90,5 +90,5 @@ export function orderPizza(e) {
              .join(", ")} \n
            `);
 
-  window.location.pathname = "/thank-you";
+  window.location.href = window.location.href + "thank-you";
 }
