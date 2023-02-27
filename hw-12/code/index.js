@@ -1,21 +1,34 @@
 import {
   clickInputSize,
-//   clickSauceAdd,
-//   clickToppingAdd,
+  resetBtnHandler,
+  orderPizza,
 } from "./functionEvent.js";
 
 import { userSlectTopping } from "./functions.js";
 
-// export const sizeRef = document.getElementById("pizza");
+export const sizeRef = document.getElementById("pizza");
 export const priceRef = document.getElementById("price");
 export const sauceRef = document.getElementById("sauce");
 export const toppingRef = document.getElementById("topping");
 
-const [...dragbleElements] = document.querySelectorAll(".draggable");
-const pizzaBasic = document.querySelector(".table");
+export const nameFieldRef = document.querySelector("input[name=name]");
+export const phoneFieldRef = document.querySelector("input[name=phone]");
+export const emailFieldRef = document.querySelector("input[name=email]");
 
-const addedToppings = [];
-let addedSauce;
+sizeRef.addEventListener("click", clickInputSize);
+
+const clearBtnRef = document.querySelector(".button[type=reset]");
+clearBtnRef.addEventListener("click", resetBtnHandler);
+
+const orderBtnRef = document.querySelector(".button[id=btnSubmit]");
+orderBtnRef.addEventListener("click", orderPizza);
+
+const [...dragbleElements] = document.querySelectorAll(".draggable");
+export const pizzaBasic = document.querySelector(".table");
+
+export const addedToppings = [],
+  addedSauce = [];
+// export let ;
 
 dragbleElements.forEach((el) => {
   el.addEventListener(
@@ -36,7 +49,7 @@ dragbleElements.forEach((el) => {
   el.addEventListener(
     "dragend",
     function (e) {
-      this.style.border = ""; 
+      this.style.border = "";
     },
     false
   );
@@ -57,6 +70,7 @@ pizzaBasic.addEventListener(
     if (e.preventDefault) {
       e.preventDefault();
     }
+
     return false;
   },
   false
@@ -78,16 +92,16 @@ pizzaBasic.addEventListener(
       img.src = imgUrl;
       img.zIndex = 20;
 
-      addedSauce = img;
+      addedSauce.push(img);
 
       if (this.children.length === 1) {
-        this.append(img);
+        this.append(...addedSauce);
       }
 
       if (this.children.length > 1) {
         this.replaceChildren(
           pizzaBasic.children[0],
-          addedSauce,
+          ...addedSauce,
           ...addedToppings
         );
       }
@@ -104,17 +118,17 @@ pizzaBasic.addEventListener(
         this.append(img);
       }
 
-      if (!addedSauce) {
-        this.replaceChildren(
-            pizzaBasic.children[0], 
-            ...addedToppings);
-        return;
-      }
-
       if (this.children.length > 1) {
+        if (addedSauce.length === 0) {
+          this.replaceChildren(pizzaBasic.children[0], ...addedToppings);
+
+          userSlectTopping(id);
+          return false;
+        }
+
         this.replaceChildren(
           pizzaBasic.children[0],
-          addedSauce,
+          ...addedSauce,
           ...addedToppings
         );
       }
@@ -126,10 +140,6 @@ pizzaBasic.addEventListener(
   },
   false
 );
-
-document.getElementById("pizza").addEventListener("click", clickInputSize);
-
-
 
 export const pizzaSelectUser = {
   size: "",

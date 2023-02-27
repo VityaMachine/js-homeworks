@@ -46,7 +46,7 @@ function calculatePrice(pizza) {
   return price;
 }
 
-function showPriceAndToppings(pizza) {
+ export function showPriceAndToppings(pizza) {
 
     
   priceRef.innerText = `${pizza.price} UAH`;
