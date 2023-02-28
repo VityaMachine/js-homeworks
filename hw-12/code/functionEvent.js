@@ -62,6 +62,8 @@ export function dropHandler(e) {
     img.src = imgUrl;
     img.zIndex = 20;
 
+    addedSauce.length = 0;
+
     addedSauce.push(img);
 
     if (this.children.length === 1) {
@@ -76,6 +78,8 @@ export function dropHandler(e) {
       );
     }
   }
+
+
 
   if ("moc1moc2moc3telyavetch1vetch2".includes(id)) {
     img.className = "draggable";
@@ -96,6 +100,8 @@ export function dropHandler(e) {
         return false;
       }
 
+
+
       this.replaceChildren(
         pizzaBasic.children[0],
         ...addedSauce,
@@ -107,7 +113,7 @@ export function dropHandler(e) {
   userSlectTopping(id);
 
 
-  console.log(pizzaSelectUser);
+ 
 
   return false;
 }
