@@ -1,4 +1,10 @@
-import { pizzaSelectUser, priceRef, sauceRef, toppingRef } from "./index.js";
+import {
+  pizzaSelectUser,
+  priceRef,
+  sauceRef,
+  toppingRef,
+  sizeRef,
+} from "./index.js";
 import pizza from "./pizza.js";
 
 function userSlectTopping(topping) {
@@ -26,7 +32,7 @@ function userSlectTopping(topping) {
 
 function calculatePrice(pizza) {
   let price = 0;
-  if (pizza.sauce !== "") {
+  if (pizza.sauce !== "" && pizza.sauce) {
     price += pizza.sauce.price;
   }
   if (pizza.topping.length > 0) {
@@ -34,21 +40,20 @@ function calculatePrice(pizza) {
       return a + b.price;
     }, 0);
   }
-  if (pizza.size !== "") {
- 
-    if(!pizza.size) {
-        return;
-    }
-
+  if (!pizza.size !== "" && pizza.size) {
     price += pizza.size.price;
+  }
+
+  if (!pizza.size) {
+    const [...sizeBtns] = sizeRef.children;
+
+    sizeBtns.forEach((el) => (el.children[0].checked = false));
   }
 
   return price;
 }
 
- export function showPriceAndToppings(pizza) {
-
-    
+export function showPriceAndToppings(pizza) {
   priceRef.innerText = `${pizza.price} UAH`;
 
   if (pizza.sauce) {
@@ -67,7 +72,7 @@ function calculatePrice(pizza) {
 
       const text = document.createElement("span");
       text.innerText = `${el.productName} (${el.price} UAH)`;
-    
+
       wrapper.append(text);
 
       return wrapper;
@@ -76,15 +81,5 @@ function calculatePrice(pizza) {
     toppingRef.replaceChildren(...markupToppings);
   }
 }
-
-// function deleteTopping(name, toppingArray) {
-//   const newArray = toppingArray.filter((el) => el.name !== name);
-
-//   pizzaSelectUser.topping = newArray;
-
-
-//   pizzaSelectUser.price = calculatePrice(pizzaSelectUser);
-//   showPriceAndToppings(pizzaSelectUser);
-// }
 
 export { userSlectTopping };

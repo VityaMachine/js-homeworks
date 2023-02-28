@@ -13,10 +13,103 @@ import {
   //   addedSauce,
 } from "./index.js";
 
+
 export function clickInputSize(e) {
   if (e.target.tagName === "INPUT") {
     userSlectTopping(e.target.value);
   }
+}
+
+
+export function dragstartHandler(e) {
+  this.style.border = "3px dotted #000";
+
+  e.dataTransfer.effectAllowed = "move";
+
+  e.dataTransfer.setData("ElementId", this.id);
+  e.dataTransfer.setData("ImgUrl", this.src);
+}
+
+export function dragendHandler(e) {
+  this.style.border = "";
+}
+
+export function dragenterHandler(e) {
+  
+  e.preventDefault();
+  this.style.border = "3px dotted #ebcc4e";
+  this.style.borderRadius = "15px";
+}
+
+export function dragoverHandler(e) {
+  e.preventDefault();
+
+  return false;
+}
+
+export function dropHandler(e) {
+  
+  if (e.preventDefault) e.preventDefault();
+  if (e.stopPropagation) e.stopPropagation();
+
+  this.style.border = "";
+  const id = e.dataTransfer.getData("ElementId");
+  const imgUrl = e.dataTransfer.getData("ImgUrl");
+  const img = document.createElement("img");
+
+  if ("sauceClassicsauceBBQsauceRikotta".includes(id)) {
+    img.className = "draggable";
+    img.src = imgUrl;
+    img.zIndex = 20;
+
+    addedSauce.push(img);
+
+    if (this.children.length === 1) {
+      this.append(...addedSauce);
+    }
+
+    if (this.children.length > 1) {
+      this.replaceChildren(
+        pizzaBasic.children[0],
+        ...addedSauce,
+        ...addedToppings
+      );
+    }
+  }
+
+  if ("moc1moc2moc3telyavetch1vetch2".includes(id)) {
+    img.className = "draggable";
+    img.src = imgUrl;
+    img.zIndex = 30;
+
+    addedToppings.push(img);
+
+    if (this.children.length === 1) {
+      this.append(img);
+    }
+
+    if (this.children.length > 1) {
+      if (addedSauce.length === 0) {
+        this.replaceChildren(pizzaBasic.children[0], ...addedToppings);
+
+        userSlectTopping(id);
+        return false;
+      }
+
+      this.replaceChildren(
+        pizzaBasic.children[0],
+        ...addedSauce,
+        ...addedToppings
+      );
+    }
+  }
+
+  userSlectTopping(id);
+
+
+  console.log(pizzaSelectUser);
+
+  return false;
 }
 
 export function resetBtnHandler(e) {
@@ -78,7 +171,7 @@ export function orderPizza(e) {
     return;
   }
 
-  console.log(pizzaSelectUser);
+
 
   alert(`Шановний ${nameFieldRef.value} \n 
            за номером ${phoneFieldRef.value} ви замовили наступну піццу \n
