@@ -37,3 +37,29 @@
 .hide-loader {
     display: none;
 }
+
+.comments {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.comments-root > div {
+    margin-top: 15px;
+}
+
+.pagination {
+    margin-top: 30px;
+}
+
+.hide-pagination {
+    display: none;
+}
+
+.pagination > span {
+   
+    margin-left: 10px;
+    margin-right: 10px;
+    font-weight: bold;
+}
