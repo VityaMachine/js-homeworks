@@ -7,8 +7,8 @@ import {
   resetBtnHandler,
   dropHandler,
   orderPizza,
+  bannerLeaveHandler,
 } from "./functionEvent.js";
-
 
 export const sizeRef = document.getElementById("pizza");
 export const priceRef = document.getElementById("price");
@@ -29,6 +29,14 @@ orderBtnRef.addEventListener("click", orderPizza);
 
 const [...dragbleElements] = document.querySelectorAll(".draggable");
 export const pizzaBasic = document.querySelector(".table");
+
+const banner = document.getElementById("banner");
+
+let maxBannerLeft = document.documentElement.clientWidth - banner.offsetWidth;
+
+banner.addEventListener("mousemove", () => {
+  bannerLeaveHandler(banner, maxBannerLeft);
+});
 
 export const addedToppings = [],
   addedSauce = [];

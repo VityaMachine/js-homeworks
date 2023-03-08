@@ -10,7 +10,6 @@ import {
   nameFieldRef,
   phoneFieldRef,
   emailFieldRef,
-  //   addedSauce,
 } from "./index.js";
 
 
@@ -190,4 +189,12 @@ export function orderPizza(e) {
            `);
 
   window.location.href = window.location.href + "thank-you";
+}
+
+export function bannerLeaveHandler(elem, maxLeft) {
+
+  elem.style.width = '220px';
+  const elemLeft = Math.random() * maxLeft;
+  elem.style.left = elemLeft + 'px';
+
 }
