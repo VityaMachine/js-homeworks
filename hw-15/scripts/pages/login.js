@@ -1,6 +1,5 @@
-import { PAGE_REGISTER } from "../constants.js";
 import { root } from "../index.js";
-import { showPage } from "../functions.js";
+import { regRefHandler } from "../eventHandlers.js";
 
 const imgUrl = "./src/images/login.png";
 
@@ -37,18 +36,7 @@ const registerLink = document.createElement("a");
 registerLink.classList.add("register-link");
 registerLink.href = "#";
 registerLink.innerText = "Register now";
-registerLink.addEventListener("click", (e) => {
-  e.preventDefault();
-
-  const originUrl = window.location.origin;
-  const pathNameUrl = window.location.pathname;
-
-  const newUrl = originUrl + pathNameUrl + `#${PAGE_REGISTER}`;
-
-  window.location.href = newUrl;
-
-  showPage(root, PAGE_REGISTER);
-});
+registerLink.addEventListener("click", regRefHandler);
 
 linkContainer.append(linkText, registerLink);
 

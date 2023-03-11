@@ -1,6 +1,6 @@
 import { PAGE_LOGIN, PAGE_REGISTER } from "./constants.js";
-
 import { showPage } from "./functions.js";
+import { hashchangeHandler } from "./eventHandlers.js";
 
 export const root = document.getElementById("root");
 
@@ -8,7 +8,7 @@ const path = window.location.href;
 const pathArr = path.split("#");
 
 
-
+window.addEventListener('hashchange', hashchangeHandler)
 
 
 if (pathArr[1] === PAGE_REGISTER) {

@@ -3,8 +3,7 @@ import { imgLogin, formLogin } from "./pages/login.js";
 import { imgRegister, formRegister } from "./pages/register.js";
 
 export function showPage(root, pageType) {
-
-  root.innerHTML = '';  
+  root.innerHTML = "";
 
   const mainContainer = document.createElement("div");
   mainContainer.classList.add("container");
@@ -22,14 +21,68 @@ export function showPage(root, pageType) {
     formContainer.append(formLogin);
   }
 
-  if(pageType === PAGE_REGISTER) {
-
+  if (pageType === PAGE_REGISTER) {
     imgContainer.append(imgRegister);
     formContainer.append(formRegister);
-
   }
-
 
   mainContainer.append(imgContainer, formContainer);
   root.append(mainContainer);
+}
+
+export function validateRegistrationData(data) {
+  let errorFields = [];
+
+  if (data.name.length < 4) {
+    errorFields.push("name");
+    alert("Name must be longer then 4 symbols");
+  }
+
+  if (data.parentsName.length < 4) {
+    errorFields.push("parentsName");
+    alert("Parent Name must be longer then 4 symbols");
+  }
+
+  const emailRegex = /^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/;
+  const validateEmail = emailRegex.test(data.email);
+
+  if (!validateEmail) {
+    errorFields.push("email");
+    alert("Wrong email");
+  }
+
+  const phoneRegex = /\+\d{12}/;
+  const validatePhone = phoneRegex.test(data.mobileNumber);
+
+  if (!validatePhone) {
+    errorFields.push("mobileNumber");
+    alert("Wrong mobile number");
+  }
+
+  if (data.password.length < 8 || data.password !== data.rePassword) {
+    errorFields.push("password");
+    errorFields.push("rePassword");
+    alert(
+      "Password must be longer then 8 symbols or reentered password is not equal"
+    );
+  }
+
+  const validateHomePhone = phoneRegex.test(data.homeNumber);
+
+  if (!validateHomePhone) {
+    errorFields.push("homeNumber");
+    alert("Wrong home number");
+  }
+
+  return errorFields;
+}
+
+export function validateIsUserRegistered (usersArray, newUser) {
+  console.log(usersArray);
+
+
+  const result = usersArray.some(el => el.email === newUser.email)
+
+  return result;
+
 }
