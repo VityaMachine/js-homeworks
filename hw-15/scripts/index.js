@@ -7,18 +7,23 @@ export const root = document.getElementById("root");
 const path = window.location.href;
 const pathArr = path.split("#");
 
+console.log(pathArr);
 
-window.addEventListener('hashchange', hashchangeHandler)
-
+window.addEventListener("hashchange", hashchangeHandler);
 
 if (pathArr[1] === PAGE_REGISTER) {
   showPage(root, PAGE_REGISTER);
 }
 
-if (pathArr[1] === PAGE_LOGIN || pathArr.length === 1) {
+if (pathArr[1] === PAGE_LOGIN || pathArr.length === 1 || pathArr[1] === "") {
   showPage(root, PAGE_LOGIN);
 }
 
-if(pathArr.length > 1 && !pathArr.includes(PAGE_LOGIN) && !pathArr.includes(PAGE_REGISTER)) {
-    showPage(root, PAGE_NOT_FOUND)
+if (
+  pathArr.length > 1 &&
+  pathArr[1] !== "" &&
+  !pathArr.includes(PAGE_LOGIN) &&
+  !pathArr.includes(PAGE_REGISTER)
+) {
+  showPage(root, PAGE_NOT_FOUND);
 }

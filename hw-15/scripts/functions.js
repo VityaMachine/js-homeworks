@@ -87,9 +87,7 @@ export function validateRegistrationData(data) {
 }
 
 export function validateIsUserRegistered (usersArray, newUser) {
-  console.log(usersArray);
-
-
+ 
   const result = usersArray.some(el => el.email === newUser.email)
 
   return result;

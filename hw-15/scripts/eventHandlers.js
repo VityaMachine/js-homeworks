@@ -8,8 +8,12 @@ import { PAGE_LOGIN, PAGE_REGISTER } from "./constants.js";
 export const hashchangeHandler = (e) => {
   const newLink = e.newURL;
 
+ 
+
   window.location.replace(newLink);
   window.location.reload();
+
+  console.log(newLink); 
 };
 
 export const regRefHandler = (e) => {
@@ -60,27 +64,27 @@ export const regBtnHandler = (e) => {
     if (isRegistered) {
       alert(`user with email ${dataObj.email} is already registered`);
     } else {
-      users
-        ? localStorage.setItem(
-            "registeredUsers",
-            JSON.stringify([...usersArr, dataObj])
-          )
-        : localStorage.setItem("registeredUsers", JSON.stringify([dataObj]));
+      localStorage.setItem(
+        "registeredUsers",
+        JSON.stringify([...usersArr, dataObj])
+      );
 
       alert("Registration finished");
     }
+  } else {
+    localStorage.setItem("registeredUsers", JSON.stringify([dataObj]));
+
+    alert("Registration finished");
   }
 
   window.location.hash = "#" + PAGE_LOGIN;
 };
 
-
 export const loginBtnHandler = (e) => {
   e.preventDefault();
 
   console.log("login");
-} 
-
+};
 
 const handleClickInput = (e) => {
   e.target.classList.remove("non-valid-input");
