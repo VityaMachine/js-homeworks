@@ -12,6 +12,7 @@ imgRegister.src = imgUrl;
 
 const formRegister = document.createElement("form");
 formRegister.classList.add("form");
+formRegister.classList.add('registration-form')
 
 
 const currentDate = new Date;

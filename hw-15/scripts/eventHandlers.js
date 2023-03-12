@@ -74,6 +74,14 @@ export const regBtnHandler = (e) => {
   window.location.hash = "#" + PAGE_LOGIN;
 };
 
+
+export const loginBtnHandler = (e) => {
+  e.preventDefault();
+
+  console.log("login");
+} 
+
+
 const handleClickInput = (e) => {
   e.target.classList.remove("non-valid-input");
 };

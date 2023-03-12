@@ -1,10 +1,12 @@
-import { PAGE_LOGIN, PAGE_REGISTER } from "./constants.js";
+import { PAGE_LOGIN, PAGE_REGISTER, PAGE_NOT_FOUND } from "./constants.js";
 import { imgLogin, formLogin } from "./pages/login.js";
 import { imgRegister, formRegister } from "./pages/register.js";
+import { notFoundMarkup } from "./pages/notFound.js";
 
 export function showPage(root, pageType) {
   root.innerHTML = "";
 
+if( pageType === PAGE_LOGIN || pageType === PAGE_REGISTER) {
   const mainContainer = document.createElement("div");
   mainContainer.classList.add("container");
 
@@ -28,6 +30,13 @@ export function showPage(root, pageType) {
 
   mainContainer.append(imgContainer, formContainer);
   root.append(mainContainer);
+}
+
+if(pageType === PAGE_NOT_FOUND) {
+  root.insertAdjacentHTML('afterbegin', notFoundMarkup)
+}
+
+
 }
 
 export function validateRegistrationData(data) {

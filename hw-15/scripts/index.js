@@ -1,4 +1,4 @@
-import { PAGE_LOGIN, PAGE_REGISTER } from "./constants.js";
+import { PAGE_LOGIN, PAGE_REGISTER, PAGE_NOT_FOUND } from "./constants.js";
 import { showPage } from "./functions.js";
 import { hashchangeHandler } from "./eventHandlers.js";
 
@@ -20,5 +20,5 @@ if (pathArr[1] === PAGE_LOGIN || pathArr.length === 1) {
 }
 
 if(pathArr.length > 1 && !pathArr.includes(PAGE_LOGIN) && !pathArr.includes(PAGE_REGISTER)) {
-    console.log("404!!!")
+    showPage(root, PAGE_NOT_FOUND)
 }

@@ -1,5 +1,5 @@
 import { root } from "../index.js";
-import { regRefHandler } from "../eventHandlers.js";
+import { regRefHandler, loginBtnHandler } from "../eventHandlers.js";
 
 const imgUrl = "./src/images/login.png";
 
@@ -41,6 +41,19 @@ registerLink.addEventListener("click", regRefHandler);
 linkContainer.append(linkText, registerLink);
 
 formLogin.append(linkContainer);
-// finished login page markup
+
+const btnLogin = document.createElement('button');
+btnLogin.classList.add('button')
+btnLogin.type = 'submit';
+btnLogin.innerText = 'LOGIN';
+
+
+
+
+formLogin.append(btnLogin)
+
+formLogin.addEventListener('submit', loginBtnHandler)
+
+
 
 export { imgLogin, formLogin };
