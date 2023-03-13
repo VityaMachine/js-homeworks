@@ -1,19 +1,16 @@
 import {
-  showPage,
+  getFormData,
   validateRegistrationData,
   validateIsUserRegistered,
+  validateLoginData,
 } from "./functions.js";
-import { PAGE_LOGIN, PAGE_REGISTER } from "./constants.js";
+import { PAGE_LOGIN, PAGE_REGISTER, PAGE_USER } from "./constants.js";
 
 export const hashchangeHandler = (e) => {
   const newLink = e.newURL;
 
- 
-
   window.location.replace(newLink);
   window.location.reload();
-
-  console.log(newLink); 
 };
 
 export const regRefHandler = (e) => {
@@ -30,14 +27,9 @@ export const regRefHandler = (e) => {
 export const regBtnHandler = (e) => {
   e.preventDefault();
 
-  const data = new FormData(e.target);
-  const elementsArr = [...data.entries()];
+  const data = getFormData(e.target);
 
-  const dataObj = {};
-
-  elementsArr.forEach((el) => (dataObj[el[0]] = el[1]));
-
-  const errorFields = validateRegistrationData(dataObj);
+  const errorFields = validateRegistrationData(data);
 
   if (errorFields.length !== 0) {
     const formElements = [...e.target];
@@ -53,26 +45,26 @@ export const regBtnHandler = (e) => {
     return;
   }
 
-  delete dataObj.rePassword;
+  delete data.rePassword;
 
   const users = localStorage.getItem("registeredUsers");
   const usersArr = JSON.parse(users);
 
   if (users) {
-    const isRegistered = validateIsUserRegistered(usersArr, dataObj);
+    const isRegistered = validateIsUserRegistered(usersArr, data);
 
     if (isRegistered) {
-      alert(`user with email ${dataObj.email} is already registered`);
+      alert(`user with email ${data.email} is already registered`);
     } else {
       localStorage.setItem(
         "registeredUsers",
-        JSON.stringify([...usersArr, dataObj])
+        JSON.stringify([...usersArr, data])
       );
 
       alert("Registration finished");
     }
   } else {
-    localStorage.setItem("registeredUsers", JSON.stringify([dataObj]));
+    localStorage.setItem("registeredUsers", JSON.stringify([data]));
 
     alert("Registration finished");
   }
@@ -83,7 +75,47 @@ export const regBtnHandler = (e) => {
 export const loginBtnHandler = (e) => {
   e.preventDefault();
 
-  console.log("login");
+  const data = getFormData(e.target);
+
+  const isValidLoginData = validateLoginData(data);
+
+  const usersArray = JSON.parse(localStorage.getItem("registeredUsers"));
+
+  if (!usersArray) {
+    alert(
+      "Have no registered users. You can be first. You will redirect to registration page"
+    );
+
+    window.location.hash = "#" + PAGE_REGISTER;
+  } else {
+    if (!isValidLoginData) {
+      return;
+    }
+
+    const foundedUser = usersArray.find((el) => el.email === data.email);
+
+    if (!foundedUser) {
+      alert(`User with email ${data.email} not found`);
+      return;
+    }
+
+    if (foundedUser.password !== data.password) {
+      alert("Wrong password");
+      return;
+    }
+
+    localStorage.setItem("loginedUser", JSON.stringify(foundedUser));
+
+    alert("Succesful login");
+
+    window.location.hash = "#" + PAGE_USER;
+  }
+};
+
+export const logoutBtnHandler = (e) => {
+  delete localStorage.loginedUser;
+
+  window.location.hash = "#" + PAGE_LOGIN;
 };
 
 const handleClickInput = (e) => {

@@ -105,6 +105,14 @@
   font-size: 18px;
 }
 
+.button:hover {
+  background-color: #0370ed;
+}
+
+.button:active {
+  background-color: #003674;
+}
+
 .non-valid-input {
   border: 2px solid red;
 }
@@ -126,4 +134,19 @@
 
 .not-found-message {
   font-size: 50px;
+}
+
+.user-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.user-item {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

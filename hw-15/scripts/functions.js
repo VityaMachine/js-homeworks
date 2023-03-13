@@ -1,42 +1,57 @@
-import { PAGE_LOGIN, PAGE_REGISTER, PAGE_NOT_FOUND } from "./constants.js";
+import { PAGE_LOGIN, PAGE_REGISTER, PAGE_NOT_FOUND, PAGE_USER } from "./constants.js";
 import { imgLogin, formLogin } from "./pages/login.js";
 import { imgRegister, formRegister } from "./pages/register.js";
+import { userMarkup } from "./pages/user.js";
 import { notFoundMarkup } from "./pages/notFound.js";
 
 export function showPage(root, pageType) {
   root.innerHTML = "";
 
-if( pageType === PAGE_LOGIN || pageType === PAGE_REGISTER) {
-  const mainContainer = document.createElement("div");
-  mainContainer.classList.add("container");
+  if (pageType === PAGE_LOGIN || pageType === PAGE_REGISTER) {
+    const mainContainer = document.createElement("div");
+    mainContainer.classList.add("container");
 
-  const imgContainer = document.createElement("div");
-  imgContainer.classList.add("image-container");
-  imgContainer.classList.add("half-page");
+    const imgContainer = document.createElement("div");
+    imgContainer.classList.add("image-container");
+    imgContainer.classList.add("half-page");
 
-  const formContainer = document.createElement("div");
-  formContainer.classList.add("form-container");
-  formContainer.classList.add("half-page");
+    const formContainer = document.createElement("div");
+    formContainer.classList.add("form-container");
+    formContainer.classList.add("half-page");
 
-  if (pageType === PAGE_LOGIN) {
-    imgContainer.append(imgLogin);
-    formContainer.append(formLogin);
+    if (pageType === PAGE_LOGIN) {
+      imgContainer.append(imgLogin);
+      formContainer.append(formLogin);
+    }
+
+    if (pageType === PAGE_REGISTER) {
+      imgContainer.append(imgRegister);
+      formContainer.append(formRegister);
+    }
+
+    mainContainer.append(imgContainer, formContainer);
+    root.append(mainContainer);
   }
 
-  if (pageType === PAGE_REGISTER) {
-    imgContainer.append(imgRegister);
-    formContainer.append(formRegister);
+  if (pageType === PAGE_NOT_FOUND) {
+    root.insertAdjacentHTML("afterbegin", notFoundMarkup);
   }
 
-  mainContainer.append(imgContainer, formContainer);
-  root.append(mainContainer);
+  if(pageType === PAGE_USER) {
+    root.append(userMarkup);
+  }
+
 }
 
-if(pageType === PAGE_NOT_FOUND) {
-  root.insertAdjacentHTML('afterbegin', notFoundMarkup)
-}
+export function getFormData(form) {
+  const data = new FormData(form);
+  const elementsArr = [...data.entries()];
 
+  const dataObj = {};
 
+  elementsArr.forEach((el) => (dataObj[el[0]] = el[1]));
+
+  return dataObj
 }
 
 export function validateRegistrationData(data) {
@@ -86,10 +101,33 @@ export function validateRegistrationData(data) {
   return errorFields;
 }
 
-export function validateIsUserRegistered (usersArray, newUser) {
- 
-  const result = usersArray.some(el => el.email === newUser.email)
+export function validateIsUserRegistered(usersArray, newUser) {
+  const result = usersArray.some((el) => el.email === newUser.email);
 
   return result;
+}
+
+export function validateLoginData(data) {
+  const emailRegex = /^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/;
+  const validateEmail = emailRegex.test(data.email);
+
+  let result = true;
+
+
+  if (!validateEmail) {
+    result = false;
+    alert("Wrong email");
+   
+  }
+
+  if (data.password.length <= 0) {
+    result = false;
+    alert(
+      "Please input password"
+    );
+  }
+
+  return result;
+
 
 }
