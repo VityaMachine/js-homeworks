@@ -18,7 +18,7 @@ window.addEventListener("hashchange", hashchangeHandler);
 
 if (
   logginedUser &&
-  (pathArr[1] === PAGE_REGISTER || pathArr[1] === PAGE_LOGIN)
+  (pathArr[1] === PAGE_REGISTER || pathArr[1] === PAGE_LOGIN || pathArr.length === 1 || pathArr[1] === "" )
 ) {
   window.location.hash = "#" + PAGE_USER;
 }
