@@ -20,9 +20,10 @@ export const linkHandler = (e) => {
     showPage(root, usersContainer);
 
     const linkHome = document.querySelector(".menu-container a");
-
     linkHome.addEventListener("click", homeLinkHandler);
-  }
+
+
+}
 };
 
 const homeLinkHandler = (e) => {
