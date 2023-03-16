@@ -1,4 +1,4 @@
-import { RestorationProduct, StoreProduct } from "./class.js";
+import { RestorationProduct, StoreProduct, VideoProduct } from "./class.js";
 
 export const getLogin = () => {
     const data = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -31,6 +31,8 @@ export function showInputModal(category) {
     const body_modal = document.querySelector(".body-modal");
     // готова форма 
     let form = ""
+    // console.log(category);
+  
 
     body_modal.innerHTML = ""
 
@@ -48,14 +50,26 @@ export function showInputModal(category) {
             </form>
             `
     }else if(category === "Магазин"){
-       form = `<form data-category="${category}" id="category-form">
+       form = 
+            `<form data-category="${category}" id="category-form">
                 ${patternCreateInputForModal("Назва продукту", undefined, generatorID(), "productName")}
                 ${patternCreateInputForModal("Вартість продукту", "number", generatorID(), "productPrice")}
                 ${patternCreateInputForModal("Картинка продукту", "url", generatorID(), "productImage")}
                 ${patternCreateInputForModal("Опис продукту", undefined, generatorID(), "productDescription")}
                 ${patternCreateInputForModal("Гарячі слова. Розділяти комою", undefined, generatorID(), "keywords")}
-        </form>
-        ` 
+             </form>
+            ` 
+    } else if(category === "Відео хостинг") {
+       form = 
+            `<form data-category="${category}" id="category-form">
+                ${patternCreateInputForModal("Назва відео", undefined, generatorID(), "videoName")}
+                ${patternCreateInputForModal("Посилання на відео", undefined, generatorID(), "videoLink")}
+                ${patternCreateInputForModal("Картинка відео", undefined, generatorID(), "videoImage")}
+                ${patternCreateInputForModal("Гарячі слова. Розділяти комою", undefined, generatorID(), "keywords")}
+             </form>
+            ` 
+
+
     }
 
     // інтеграція готової форми на html сторінку
@@ -132,6 +146,19 @@ export function addProduct(category) {
         const storeBD = JSON.parse(localStorage.storeBD);
         storeBD.push(new StoreProduct(obj));
         localStorage.storeBD = JSON.stringify(storeBD);
+        const alertOk = document.querySelector(".alert-ok");
+        alertOk.classList.remove("hide"); 
+        alertOk.innerHTML = "Ви успішно зберегли дані про старву!"
+        setTimeout(()=>{alertOk.classList.add("hide"); }, 2000)
+    }else if(category === "Відео хостинг") {
+        const videoBD = JSON.parse(localStorage.videoBD);
+        videoBD.push(new VideoProduct(obj));
+        localStorage.videoBD = JSON.stringify(videoBD)
+
+        const alertOk = document.querySelector(".alert-ok");
+        alertOk.classList.remove("hide"); 
+        alertOk.innerHTML = "Ви успішно зберегли дані про старву!"
+        setTimeout(()=>{alertOk.classList.add("hide"); }, 2000)
     }
     document.querySelector(".container-modal").classList.add("hide")
 }

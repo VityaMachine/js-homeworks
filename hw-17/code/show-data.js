@@ -3,11 +3,13 @@ import { createEditProductInput, createProductElement } from "./methods.js";
 
 const pathnameStr = window.location.pathname.slice(1, -1);
 
+console.log(pathnameStr);
+
 let data = null;
 
 function updateData(updateType, newData) {
   if (updateType === "get") {
-    if (pathnameStr === "restoran") {
+    if (pathnameStr.includes("restoran")) {
       const lsData = [...JSON.parse(localStorage.restorationBD)];
       data = [];
       lsData.forEach((el) => {
@@ -15,8 +17,16 @@ function updateData(updateType, newData) {
       });
     }
 
-    if (pathnameStr === "store") {
+    if (pathnameStr.includes("store")) {
       const lsData = [...JSON.parse(localStorage.storeBD)];
+      data = [];
+      lsData.forEach((el) => {
+        data.push(el);
+      });
+    }
+
+    if (pathnameStr.includes("video")) {
+      const lsData = [...JSON.parse(localStorage.videoBD)];
       data = [];
       lsData.forEach((el) => {
         data.push(el);
@@ -25,12 +35,17 @@ function updateData(updateType, newData) {
   }
 
   if (updateType === "set") {
-    if (pathnameStr === "restoran") {
+    if (pathnameStr.includes("restoran")) {
       localStorage.restorationBD = JSON.stringify(newData);
       data = newData;
     }
-    if (pathnameStr === "store") {
+    if (pathnameStr.includes("store")) {
       localStorage.storeBD = JSON.stringify(newData);
+      data = newData;
+    }
+
+    if (pathnameStr.includes("video")) {
+      localStorage.videoBD = JSON.stringify(newData);
       data = newData;
     }
   }
@@ -49,7 +64,7 @@ function showListProduct(data) {
   const tbody = document.createElement("tbody");
   table.append(tbody);
 
-  if (pathnameStr === "restoran" || pathnameStr === "store") {
+  if (pathnameStr.includes("restoran") || pathnameStr.includes("store")) {
     const tableD = data.map((e, i) => {
       const { productName, quantity, date, productPrice } = e;
       const tr = createProductElement("tr");
@@ -58,37 +73,40 @@ function showListProduct(data) {
         createProductElement("td", undefined, productName),
         createProductElement("td", undefined, quantity),
         createProductElement("td", undefined, productPrice),
-        createProductElement(
-          "td",
-          undefined,
-          "<span class='icon'>&#128221;</span>",
-          undefined,
-          editClickEvent,
-          e
-        ),
-        createProductElement(
-          "td",
-          undefined,
-          quantity > 0 ? "&#9989;" : "&#10060;"
-        ),
+        createProductElement("td", undefined, "<span class='icon'>&#128221;</span>", undefined, editClickEvent, e),
+        createProductElement("td", undefined, quantity > 0 ? "&#9989;" : "&#10060;"),
         createProductElement("td", undefined, date),
-        createProductElement(
-          "td",
-          undefined,
-          "<span class='icon'>&#128465;</span>",
-          undefined,
-          deleteClickEvent,
-          e
-        ),
+        createProductElement("td", undefined, "<span class='icon'>&#128465;</span>", undefined, deleteClickEvent, e),
       ];
       tr.append(...tds);
       return tr;
     });
 
     tbody.append(...tableD);
-
-    updateData("get");
   }
+
+  if(pathnameStr.includes("video")) {
+    const tableD = data.map((e, i) => {
+      const { videoName, date, videoLink } = e;
+      const tr = createProductElement("tr");
+      const tds = [
+        createProductElement("td", undefined, i + 1),
+        createProductElement("td", undefined, videoName),
+        createProductElement("td", undefined, date),
+        createProductElement("td", undefined, videoLink),
+        createProductElement("td", undefined, "<span class='icon'>&#128221;</span>", undefined, editClickEvent, e),
+        createProductElement("td", undefined, "<span class='icon'>&#128465;</span>", undefined, deleteClickEvent, e),
+      ]
+      tr.append(...tds);
+      return tr;
+    })
+
+    tbody.append(...tableD);
+
+  }
+
+
+  updateData("get");
 }
 showListProduct(data);
 
@@ -128,6 +146,8 @@ function saveProduct(oldObject) {
 
   const inputs = document.querySelectorAll(".modal-window input");
 
+  console.log(inputs);
+
   inputs.forEach((el) => {
     if (el.key === "stopList") return;
     newObj[el.key] = el.value;
@@ -140,7 +160,6 @@ function saveProduct(oldObject) {
   });
   arr.splice(index, 1, newObj);
 
-
   updateData("set", arr);
   showListProduct(data);
 }
@@ -149,12 +168,10 @@ function deleteClickEvent(e) {
   const idToDelete = e.id;
 
   deleteProduct(idToDelete);
-  
 }
 
 function deleteProduct(productId) {
   const newData = data.filter((el) => el.id !== productId);
-  updateData('set', newData)
+  updateData("set", newData);
   showListProduct(data);
- 
 }

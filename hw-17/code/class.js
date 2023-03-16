@@ -21,7 +21,21 @@ function StoreProduct ({productName, productPrice, productImage, productDescript
     this.keywords = keywords.split(",");
     this.id = id();
     this.date = date()
+
+    this.quantity = 0;
+    this.stopList = true;
+}
+
+function VideoProduct ({videoName, videoLink, videoImage, keywords, id, date}) {
+    this.videoName = videoName;
+    this.videoLink = videoLink;
+    this.videoImage = videoImage;
+
+    this.keywords = keywords.split(",");
+    this.id = id();
+    this.date = date()
+
 }
 
 
-export {RestorationProduct, StoreProduct}
+export {RestorationProduct, StoreProduct, VideoProduct}
